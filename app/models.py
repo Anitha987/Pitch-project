@@ -1,8 +1,10 @@
+from werkzeug.security import generate_password_hash,check_password_hash
 from .import db 
 class User(db.Model):
   __tablename__ = 'users'
   id = db.Column(db.Integer,primary_key = True)
   username = db.Column(db.String(255))
+  pass_secure = db.Column(db.String(225))
   pitch_id=db.Column(db.Integer,db.ForeignKey('pitches.id'))
 
   def __repr__(self):
