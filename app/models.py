@@ -1,11 +1,17 @@
 from werkzeug.security import generate_password_hash,check_password_hash
+from flask_login import UserMixin
 from .import db 
+from . importlogin_manager
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 class User(db.Model):
   __tablename__ = 'users'
   id = db.Column(db.Integer,primary_key = True)
-  username = db.Column(db.String(255))
-  pass_secure = db.Column(db.String(225))
+  username = db.Column(db.String(255),index=True)
+  email= db.Column(db.String(225),unique=True,index=True)
   pitch_id=db.Column(db.Integer,db.ForeignKey('pitches.id'))
+  password_hash = db.Column(db.String(255))
   @property
   def password(self):
       raise AttributeError('You cannot read the password attribute')
