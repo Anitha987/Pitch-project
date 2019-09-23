@@ -5,10 +5,10 @@ from flask_login import login_user,logout_user,login_required
 from .. import db
 from . import auth
 from ..email import mail_message
-@auth.route('/login')
-def login(): 
-  print()
-  return render_template('auth/login.html')
+# @auth.route('/login')
+# def login(): 
+#   print()
+#   return render_template('auth/login.html')
 @auth.route('/register',methods = ["GET","POST"])
 def register():
   form = RegistrationForm()
