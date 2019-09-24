@@ -3,54 +3,15 @@ from flask import render_template,request,redirect,url_for,abort
 from ..models import User,Pitch,Category,Comment,Vote
 from .forms import UpdateProfile,PitchForm,CategoryForm,CommentForm
 from ..import db,photos
-from . import main
-# @main.route('/pitch/review/new/<int:id>', methods = ['GET','POST'])
-# @login_required
-# def new_review(id):
-#   print()
-# @main.route('/user/<uname>')
-# def profile(uname):
-#   user = User.query.filter_by(username = uname).first()
-
-#   if user is None:
-#       abort(404)
-
-#   return render_template("profile/profile.html", user = user)  
-# @main.route('/user/<uname>/update',methods = ['GET','POST'])
-# @login_required
-# def update_profile(uname):
-#   user = User.query.filter_by(username = uname).first()
-#   if user is None:
-#     abort(404)
-
-#   form = UpdateProfile()
-
-#   if form.validate_on_submit():
-#     user.bio = form.bio.data
-
-#     db.session.add(user)
-#     db.session.commit()
-
-#     return redirect(url_for('.profile',uname=user.username))
-
-#   return render_template('profile/update.html',form =form)
-# @main.route('/user/<uname>/update/pic',methods= ['POST'])
-# @login_required
-# def update_pic(uname):
-#     user = User.query.filter_by(username = uname).first()
-#     if 'photo' in request.files:
-#         filename = photos.save(request.files['photo'])
-#         path = f'photos/{filename}'
-#         user.profile_pic_path = path
-#         db.session.commit()
-#     return redirect(url_for('main.profile',uname=uname))   
+from . import main 
 @main.route('/')
 def index():
   '''
   view root page function that returns the index page and its data
   '''
-  category = Category.get_categories()
-  return render_template('index.html'category=category)
+  category = Category.query.all()
+
+  return render_template('index.html',category = category)
 @main.route('/add/category',methods=['GET','POST'])
 @login_required
 def new_category():
@@ -63,13 +24,13 @@ def new_category():
     new_category.save_category()
     return redirect(url_for('.index'))
     title = 'New category'
-    return render_template('new_category.html',Category_form=form,title)
+    return render_template('new_category.html',Category_form=form,title=title)
 @main.route('/categories/<int:id>')    
 def category(id):
   category =Category.query.get(id)
   pitches = Pitch.query.filter_by(category.id).all()
   return render_template('category.html',pitches=pitches,category=category)
-@main.route('/categories/view_pitch/add/<int:id>'methods=['GET','POST'])
+@main.route('/categories/view_pitch/add/<int:id>',methods=['GET','POST'])
 @login_required
 def new_pitch(id):
   '''
@@ -77,7 +38,7 @@ def new_pitch(id):
   '''
   form = PitchForm()
   category= Category.query.filter_by(id=id).first()
-  if categoryis None:
+  if category is None:
     abort(404)
   if form.validat_on_submit():
     content = form.content.data
@@ -86,8 +47,8 @@ def new_pitch(id):
     return redirect(url_for('.category',id=category.id))
     title='New Pitch'
     return render_template('new_pitch.html',title=title,pitch_form = form,category = category)
-@main.route('/categories/view_pitch/<int:id>'methods=['GET','POST'])
-login_required
+@main.route('/categories/view_pitch/<int:id>',methods=['GET','POST'])
+@login_required
 def view_pitch(id):
   '''
   function htat returns a single pitch for comment to be added
@@ -97,7 +58,7 @@ def view_pitch(id):
   if pitches is None:
     abort(404)
     comment=Comments.get_comments(id)
-    return return_template('pitc.html',pitches=pitches,comment=comment,category_id=id)
+    return return_template('pitch.html',pitches=pitches,comment=comment,category_id=id)
 @main.route('/user/<uname>/update/pic',methods=['GET','POST'])    
 @login_required
 def profile(uname):
@@ -105,16 +66,16 @@ def profile(uname):
   if user is None:
     abort(404)
     form=UpdateProfile
-  if form.validate_on_submit):
+  if form.validate_on_submit:
       user.bio=form.bio.data
       db.session.add(user)
       db.session.commit()
       return redirect(url_for('.profile',uname=user.username))
   if 'photo'in request.files:
     filename=photos.save(request.files['photo'])
-    path = f'photis/{filename}'
+    path = f'photos/{filename}'
     user.profile_pic_path=path
     db.session.commit()
   return redirect(url_for('main.profile',uname=uname))
-  return render_template('profile/profile.html'user=user)      
+  return render_template('profile/profile.html',user=user)      
 

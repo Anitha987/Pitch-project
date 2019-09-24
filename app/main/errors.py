@@ -5,4 +5,4 @@ def four_Ow_Four(error):
   '''
   function to renderthe 404 error page
   '''
-  return render_template('fourOwfour.html')404
+  return render_template('fourOwfour.html'),404

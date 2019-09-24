@@ -8,9 +8,9 @@
 # bootstrap = Bootstrap()
 # db = SQLAlchemy()
 from flask import Blueprint
-auth = Blueprint('auth',__name__)
-from . import views,forms
-
+main = Blueprint('main',__name__)
+from . import views,errors
+# from . import main
 # def create_app(config_name):
 #   app = Flask(__name__)
 
