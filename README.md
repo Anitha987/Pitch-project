@@ -13,7 +13,7 @@ The user will be able to pich after creating his /her account.
 Python3.6
 
 ##Test Driven Development
-Testing was done using python inbuild test tool called unittest
+Testing was done using python inbuild test tools called unittest
 
 Copyright (c) [2019] [umuhire anitha]
 

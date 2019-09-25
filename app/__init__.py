@@ -33,6 +33,6 @@ def create_app(config_name):
   mail = Mail()
   
   #configure uploaset 
-  # configure_uploads(app,photos)
+  configure_uploads(app,photos)
 
   return app

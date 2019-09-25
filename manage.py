@@ -3,7 +3,8 @@ from app.models import User,Pitch,Category,Comment,Vote
 from flask_migrate import Migrate,MigrateCommand
 from flask_script import Manager,Server
 
-app = create_app('development')
+app = create_app('production')
+# app = create_app('test')
 migrate=Migrate(app,db)
 manager = Manager(app)
 manager.add_command('db',MigrateCommand)
