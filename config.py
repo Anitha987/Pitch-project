@@ -4,8 +4,8 @@ class Config :
   Genarate configuration parent class
   '''
   UPLOADED_PHOTOS_DEST ='app/static/photos'
-  SECRET_KEY = os.environ.get('SECRET_KEY')
-  
+  SECRET_KEY ="anitha"
+  SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wecode:1234@localhost/pitch'
 
   #  email configurations
   MAIL_SERVER = 'smtp.googlemail.com'
@@ -16,7 +16,7 @@ class Config :
 
 
 class ProdConfig(Config):
-  SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://wecode:1234@localhost/pitch'
+  pass
 
 class DevConfig(Config):
   '''
